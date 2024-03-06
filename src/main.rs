@@ -1,8 +1,11 @@
-use zero_to_production::run;
+// use zero_to_production::run;
 
 #[tokio::main]
-async fn main() -> std::io::Result<()> {
-    run()?.await
+// async fn main() -> std::io::Result<()> {
+    // run()?.await
+// }
+async fn main() {
+
 }
 
 // #[tokio::main]
