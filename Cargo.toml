@@ -17,6 +17,10 @@ name = "zero-to-production"
 actix-web = "4.5.1"
 dotenv = "0.15.0"
 tokio = { version = "1.36.0", features = ["macros", "rt-multi-thread"] }
+# 옵셔널 `derive` 피처를 사용해야, `serde`의 절차적 매크로인
+# `#[derive(Serialize)]`와 #[derive(Deserialize)]`를 사용할 수 있다.
+# 이 피처는 기본으로 활성화되어 있지 않다. 프로젝트에 불필요한 디펜던시를
+# 사용하지 않도록 하기 위해서다.
 serde = { version =  "1.0.197", features = ["derive"] }
 
 

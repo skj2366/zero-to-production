@@ -11,15 +11,21 @@ async fn health_check() -> HttpResponse {
     HttpResponse::Ok().finish()
 }
 
+#[derive(serde::Deserialize)]
+struct FormData {
+    email: String,
+    name: String
+}
+
 // 단순하게 시작하자: 항상 200 OK를 반환한다.
-async fn subscribe() -> HttpResponse {
+async fn subscribe(_form: web::Form<FormData>) -> HttpResponse {
     HttpResponse::Ok().finish()
 }
 
 pub fn run(listener: TcpListener) -> Result<Server> {
     let server = HttpServer::new(|| {
         App::new()
-            .route("/", web::get().to(health_check))
+            .route("/health_check", web::get().to(health_check))
             // POST /subscriptions 요청에 대한 라우팅 테이블의 새 엔트리 포인트
             .route("/subscriptions", web::post().to(subscribe))
     })
