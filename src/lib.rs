@@ -1,32 +1,27 @@
-// use std::env;
-use std::io::Result;
+use std::io::{Result};
 use std::net::TcpListener;
 
-use actix_web::{App, HttpRequest, HttpResponse, HttpServer, Responder, web};
+use actix_web::{App, HttpResponse, HttpServer, web};
 use actix_web::dev::Server;
-// use dotenv::dotenv;
 
-async fn greet(req: HttpRequest) -> impl Responder {
-    let name = req.match_info().get("name").unwrap_or("World");
-    format!("Hello {}!", &name)
-}
-
+// `impl Responder`를 초반에 반환한다.
+// `actix-web`에 익숙해졌으므로, 주어진 타입을 명시적으로 기술한다.
+// 이로 인한 성능의 차이는 없다. 그저 스타일과 관련된 선택일 뿐이다.
 async fn health_check() -> HttpResponse {
     HttpResponse::Ok().finish()
 }
 
-pub fn run(listener: TcpListener) -> Result<Server> {
-    // dotenv().ok();
-    // let server_url = env::var("SERVER_URL").unwrap();
-    // let server_port = env::var("SERVER_PORT").unwrap().parse().unwrap();
-    // let welcome_string: String = "👏".to_string();
-    // println!("Hello Rust! {}", welcome_string);
-    // println!("Running SERVER 🐱‍🏍 Success => http://{}:{}", &server_url, &server_port);
+// 단순하게 시작하자: 항상 200 OK를 반환한다.
+async fn subscribe() -> HttpResponse {
+    HttpResponse::Ok().finish()
+}
 
+pub fn run(listener: TcpListener) -> Result<Server> {
     let server = HttpServer::new(|| {
         App::new()
             .route("/", web::get().to(health_check))
-            .route("/{name}", web::get().to(greet))
+            // POST /subscriptions 요청에 대한 라우팅 테이블의 새 엔트리 포인트
+            .route("/subscriptions", web::post().to(subscribe))
     })
         .listen(listener)?
         .run();
