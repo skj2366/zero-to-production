@@ -22,7 +22,21 @@ tokio = { version = "1.36.0", features = ["macros", "rt-multi-thread"] }
 # 이 피처는 기본으로 활성화되어 있지 않다. 프로젝트에 불필요한 디펜던시를
 # 사용하지 않도록 하기 위해서다.
 serde = { version =  "1.0.197", features = ["derive"] }
+config = "0.14.0"
+uuid = { version = "1.8.0", features = ["v4"] }
+chrono = { version = "0.4.35", default-features = false, features = ["clock"] }
 
+[dependencies.sqlx]
+version = "0.7.4"
+default-features = false
+features = [
+    "runtime-tokio-rustls",
+    "macros",
+    "postgres",
+    "uuid",
+    "chrono",
+    "migrate"
+]
 
 [dev-dependencies]
 reqwest = "0.11.24"
